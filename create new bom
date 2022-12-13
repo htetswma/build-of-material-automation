@@ -1,0 +1,38 @@
+def main():
+    i = 0
+    j = 0
+    label_codes = {}
+    label_code_list = []
+    part_code_list = []
+    with open('C:\\Users\\htet.ma\\Desktop\\data.txt') as fp:
+        for line_context in fp.readlines():
+            if line_context.startswith('\t'):
+                i = 0
+            if i >= 2:
+                label_code = line_context.split('\t')[0]
+                if not label_code:
+                    print(line_context)
+                label_codes[label_code] = []
+            if i >= 1:
+                i += 1
+            if line_context.startswith('Title Block'):
+                i = 1
+
+            if line_context.startswith('\t'):
+                j = 0
+            if j >= 2:
+                part_code = line_context.split('\t')[7]
+                label_codes[label_code].append(part_code)
+                label_code_list.append(label_code)
+                part_code_list.append(part_code)
+            if j >= 1:
+                j += 1
+            if line_context.startswith('BOM'):
+                j = 1
+    df = pd.DataFrame({'label_code': label_code_list, 'part_code': part_code_list})
+    print(df)
+    df.to_csv('C:\\Users\\htet.ma\\Desktop\\htet.csv')
+
+
+if __name__ == '__main__':
+    main()
